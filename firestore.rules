@@ -1,0 +1,24 @@
+rules_version = '2'; 
+service cloud.firestore { 
+ match /databases/{database}/documents { 
+  // Seuls les membres de la famille peuvent lire et modifier le calendrier 
+  function isFamily() { 
+    return request.auth != null && request.auth.token.email in [ 
+      "laurentayud@gmail.com", 
+      "zounzouna@gmail.com", 
+      "adam.calatayud78@gmail.com", 
+      "melina@famille.local", 
+      "leina@famille.local" 
+    ]; 
+  } 
+  match /events/{eventId} { 
+    allow read: if isFamily();
+    allow create, update: if isFamily() 
+      && request.resource.data.title is string 
+      && request.resource.data.title.size() > 0 
+      && request.resource.data.title.size() <= 120 
+      && request.resource.data.date is string; 
+    allow delete: if isFamily(); 
+   } 
+  } 
+}

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Calendrier Famille</title>
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Famille">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Écran de connexion -->
+  <section id="login" class="login hidden">
+    <form id="loginForm" class="card">
+      <img src="icons/icon-192.png" alt="" class="logo">
+      <h1>Calendrier Famille</h1>
+      <input id="email" type="email" placeholder="Adresse e-mail" autocomplete="username" required>
+      <input id="password" type="password" placeholder="Mot de passe" autocomplete="current-password" required>
+      <button class="btn primary" type="submit">Se connecter</button>
+      <p id="loginError" class="error"></p>
+    </form>
+  </section>
+
+  <!-- Application -->
+  <section id="app" class="hidden">
+    <header class="topbar">
+      <button id="prev" class="icon-btn" aria-label="Mois précédent">‹</button>
+      <h2 id="monthLabel"></h2>
+      <button id="next" class="icon-btn" aria-label="Mois suivant">›</button>
+      <div class="spacer"></div>
+      <button id="today" class="btn small">Aujourd'hui</button>
+      <button id="toggleView" class="btn small">Agenda</button>
+      <button id="logout" class="icon-btn" aria-label="Déconnexion" title="Déconnexion">⎋</button>
+    </header>
+
+    <nav id="filters" class="filters" aria-label="Filtrer par membre"></nav>
+
+    <main class="layout">
+      <div id="monthView">
+        <div class="weekdays"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div>
+        <div id="grid" class="grid"></div>
+      </div>
+      <aside class="side">
+        <h3 id="sideTitle"></h3>
+        <ul id="eventList" class="event-list"></ul>
+      </aside>
+    </main>
+
+    <button id="fab" class="fab" aria-label="Ajouter un événement">+</button>
+    <div id="offline" class="offline hidden">Hors connexion – les modifications seront synchronisées au retour du réseau</div>
+  </section>
+
+  <!-- Formulaire événement -->
+  <dialog id="eventDialog">
+    <form id="eventForm" method="dialog" class="form">
+      <h3 id="formTitle">Nouvel événement</h3>
+      <label>Titre<input name="title" maxlength="120" required></label>
+      <label>Date<input name="date" type="date" required></label>
+      <label class="inline"><input name="allDay" type="checkbox"> Toute la journée</label>
+      <div class="row" id="timeRow">
+        <label>Début<input name="start" type="time" value="09:00"></label>
+        <label>Fin<input name="end" type="time" value="10:00"></label>
+      </div>
+      <fieldset><legend>Qui ?</legend><div id="participants" class="chips"></div></fieldset>
+      <div class="row">
+        <label>Répétition
+          <select name="repeat">
+            <option value="none">Aucune</option>
+            <option value="weekly">Chaque semaine</option>
+            <option value="monthly">Chaque mois</option>
+          </select>
+        </label>
+        <label id="untilLabel">Jusqu'au<input name="repeatUntil" type="date"></label>
+      </div>
+      <label>Lieu<input name="location" maxlength="120"></label>
+      <label>Notes<textarea name="notes" rows="2" maxlength="500"></textarea></label>
+      <p id="formError" class="error"></p>
+      <div class="actions">
+        <button type="button" id="deleteBtn" class="btn danger hidden">Supprimer</button>
+        <div class="spacer"></div>
+        <button type="button" id="cancelBtn" class="btn">Annuler</button>
+        <button type="submit" class="btn primary">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
